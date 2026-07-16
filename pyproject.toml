@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seatscout"
+version = "0.1.0"
+description = "Find cinema showtimes that still have good center seats available."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "dktbg" }]
+keywords = ["cinema", "movies", "showtimes", "seats", "amc", "seat-map"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Multimedia :: Video",
+    "Environment :: Console",
+]
+dependencies = []  # core is stdlib-only on purpose
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+dev = ["pytest>=7", "ruff>=0.5"]
+
+[project.urls]
+Homepage = "https://github.com/dktbg/seatscout"
+Issues = "https://github.com/dktbg/seatscout/issues"
+
+[project.scripts]
+seatscout = "seatscout.cli:main"
+seatscout-mcp = "seatscout.mcp_server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: hits live cinema sites to catch parser drift; run with -m integration",
+]
+# Offline unit tests run by default; opt into live tests explicitly.
+addopts = "-m 'not integration'"
